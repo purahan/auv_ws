@@ -27,7 +27,9 @@ source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 ```
 > :bulb: **Tip:** We need to export the `GZ_SIM_RESOURCE_PATH` and the path will be available by using the cmd `echo $GZ_SIM_RESOURCE_PATH` and add the path in `export GZ_SIM_RESOURCE_PATH=$HOME/{path}`
 <br><br>
+
 Finally your setup is complete use the commands given below every time before running the code:
+
 ```
 source ~/.bashrc
 colcon build
