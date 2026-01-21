@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="nemo_auv">
+    <link name = "base_link" />
+
+
+    <link name="root_link">
+        <!--<pose xyz="0 0 0.15" rpy="0 0 0" />-->
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>     
+            <geometry>
+                <mesh filename="package://nemo_description/meshes/visual_base_link.dae"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <mass value="17.655"/>
+            <origin xyz = "0.0 0.0 -0.075" rpy = "0 0 0 "/>
+            <inertia ixx="0.026" ixy="0.0" ixz="0.0"
+                 iyy="0.047" iyz="0.0"
+                 izz="0.052"/>
+            <!--<inertia ixx="0.31520658221610337" ixy="0.0" ixz="0.0" iyy="0.5612468130234098" iyz="0.0" izz="0.5976589117638781"/>-->
+        </inertial>
+        
+        <collision>
+            <origin xyz="0.0 0.0 -0.048" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <box size="0.480 0.2025 0.1920"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="base_joint" type="fixed">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="root_link"/>
+        
+    </joint>
+</robot>

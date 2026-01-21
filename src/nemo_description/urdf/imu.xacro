@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="nemo_auv">
+    <xacro:macro name="imu" params="name xyz rpy">
+        <link name="nemo_auv/${name}"/>
+        <gazebo reference="nemo_auv/${name}">
+            <sensor name="${name}" type="imu">
+                <always_on>1</always_on>
+                <update_rate>1</update_rate>
+                <visualize>true</visualize>
+                <topic>IMU/${name}</topic> 
+                <!--<gz_frame_id>${name}</gz_frame_id>-->
+                <imu>
+                    <angular_velocity>
+                        <x>
+                            <noise type="gaussian">
+                            <mean>0</mean>
+                            <stddev>0.009</stddev>
+                            <bias_mean>0.00075</bias_mean>
+                            <bias_stddev>0.005</bias_stddev>
+                            <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                            <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                            <precision>0.00025</precision>
+                            </noise>
+                        </x>
+                        <y>
+                            <noise type="gaussian">
+                            <mean>0</mean>
+                            <stddev>0.009</stddev>
+                            <bias_mean>0.00075</bias_mean>
+                            <bias_stddev>0.005</bias_stddev>
+                            <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                            <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                            <precision>0.00025</precision>
+                            </noise>
+                        </y>
+                        <z>
+                            <noise type="gaussian">
+                            <mean>0</mean>
+                            <stddev>0.009</stddev>
+                            <bias_mean>0.00075</bias_mean>
+                            <bias_stddev>0.005</bias_stddev>
+                            <dynamic_bias_stddev>0.00002</dynamic_bias_stddev>
+                            <dynamic_bias_correlation_time>400.0</dynamic_bias_correlation_time>
+                            <precision>0.00025</precision>
+                            </noise>
+                        </z>
+                    </angular_velocity>
+                    <linear_acceleration>
+                    <x>
+                        <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.021</stddev>
+                        <bias_mean>0.05</bias_mean>
+                        <bias_stddev>0.0075</bias_stddev>
+                        <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                        <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                        <precision>0.005</precision>
+                        </noise>
+                    </x>
+                    <y>
+                        <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.021</stddev>
+                        <bias_mean>0.05</bias_mean>
+                        <bias_stddev>0.0075</bias_stddev>
+                        <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                        <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                        <precision>0.005</precision>
+                        </noise>
+                    </y>
+                    <z>
+                        <noise type="gaussian">
+                        <mean>0</mean>
+                        <stddev>0.021</stddev>
+                        <bias_mean>0.05</bias_mean>
+                        <bias_stddev>0.0075</bias_stddev>
+                        <dynamic_bias_stddev>0.000375</dynamic_bias_stddev>
+                        <dynamic_bias_correlation_time>175.0</dynamic_bias_correlation_time>
+                        <precision>0.005</precision>
+                        </noise>
+                    </z>
+                    </linear_acceleration>
+                    <orientation_reference_frame>
+                        <localization>ENU</localization>
+                    </orientation_reference_frame>
+                </imu>
+            </sensor>
+        </gazebo>
+
+
+        <joint name="${name}_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <parent link="base_link"/>
+            <child link="nemo_auv/${name}"/>
+        </joint>
+    </xacro:macro>
+
+    <xacro:imu name="VectorNav1" xyz = "0.0 0.0 0.2" rpy = "0.0 0.0 0.0"/>
+</robot>

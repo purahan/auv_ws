@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="nemo_auv">
+    <xacro:macro name="thruster_cw" params="thruster_id origin_xyz origin_rpy">
+        <link name="${ns}/thruster${thruster_id}">
+            <visual>
+                <geometry>
+                    <mesh filename="package://nemo_description/meshes/cwp.dae" scale="1.0 1.0 1.0"/>
+                </geometry>
+            </visual>
+
+            <inertial>
+                <mass value="0.115972005449422"/>
+                <inertia ixx="4.709701538510022e-06" ixy="0.0" ixz="0.0" iyy="4.709701538508585e-06" iyz="0.0" izz="3.424149260721648e-06"/>
+            </inertial>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+
+                <geometry>
+                    <cylinder radius="0.09" length="0.05"/>
+                </geometry>
+                
+            </collision>
+        </link>
+
+        <joint name="thruster${thruster_id}" type="continuous">
+            <origin xyz="${origin_xyz}" rpy="${origin_rpy}" />
+            <axis xyz="0 0 1" />
+            <parent link="root_link" />
+            <child link="${ns}/thruster${thruster_id}"/>
+            <limits effort="0.5" velocity="5.0"/>
+        </joint>
+
+        <gazebo>
+            <plugin filename="gz-sim-thruster-system" name="ignition::gazebo::systems::Thruster">
+                <namespace>${ns}</namespace>
+                <joint_name>thruster${thruster_id}</joint_name>
+                <topic>thruster${thruster_id}/cmd</topic>
+                <thrust_coefficient>0.011</thrust_coefficient>
+                <fluid_density>1000</fluid_density>
+                <propeller_diameter>0.090</propeller_diameter>
+                <velocity_control>false</velocity_control>
+                <use_angvel_cmd>false</use_angvel_cmd>
+                <max_thrust_cmd>10</max_thrust_cmd>
+                <min_thrust_cmd>-10</min_thrust_cmd>
+            </plugin>
+        </gazebo>
+    </xacro:macro>
+
+
+    <xacro:thruster_cw thruster_id="1" origin_xyz="0.21370 -0.09262 -0.07877" origin_rpy="0.000000 1.570796 0.785" />
+    <xacro:thruster_cw thruster_id="2" origin_xyz="0.21370 0.09053 -0.07877" origin_rpy="0.000000 1.570796 -0.785" />
+    <xacro:thruster_cw thruster_id="5" origin_xyz="0.14902 -0.23605 0.000123" origin_rpy="0.000000 0.000000 0.000000" />
+    <xacro:thruster_cw thruster_id="8" origin_xyz="-0.15098 0.23395 0.000123" origin_rpy="0.000000 0.000000 0.000000" />           
+    
+</robot>

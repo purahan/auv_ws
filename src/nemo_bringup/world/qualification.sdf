@@ -1,0 +1,295 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="ocean">
+
+    <scene>
+      <sky></sky>
+      <ambient>0.525 0.96 0.96 0.025</ambient>
+      <!-- <background>0.7 0.8 0.9 1.0</background> -->
+      <background>0.525 0.96 0.96 0.025</background>
+      <grid>false</grid>
+      <fog>
+        <color>0.525 0.96 0.96 0.2</color>
+        <type>linear</type>
+        <density>0.02</density>
+        <start>0.5</start>
+        <end>20.0</end>
+      </fog>
+    </scene>
+
+
+    <physics name="10ms" type="ode">
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-imu-system"
+      name="gz::sim::systems::Imu">
+    </plugin>
+    
+    <plugin filename="gz-sim-buoyancy-system"
+        name="gz::sim::systems::Buoyancy">
+        <!--<graded_buoyancy>
+          <default_density>1000</default_density>
+          <density_change>
+            <above_depth>0</above_depth>
+            <density>10</density>
+          </density_change>
+          <density_change>
+            <above_depth>1</above_depth>
+            <density>1</density>
+          </density_change>
+        </graded_buoyancy>-->
+
+        <graded_buoyancy>
+          <default_density>1000</default_density>
+          <density_change>
+            <above_depth>0</above_depth>
+            <density>1</density>
+          </density_change>
+      </graded_buoyancy>
+    </plugin>
+
+    <plugin
+      filename="gz-sim-contact-system"
+      name="gz::sim::systems::Contact">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-forcetorque-system"
+      name="gz::sim::systems::ForceTorque">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-particle-emitter-system"
+      name="gz::sim::systems::ParticleEmitter">
+    </plugin>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 5 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.5 0.5 0.5 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <model name="water_plane">
+      <pose>0 0 0 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="water_plane">
+          <geometry>
+            <plane>
+              <size>20 15</size>
+              <normal>0 0 1</normal>
+            </plane>
+          </geometry>
+          <material>
+        <!-- Soft blue-green water color -->
+            <ambient>0.2 0.7 0.9 0.6</ambient>
+            <diffuse>0.2 0.7 0.9 0.6</diffuse>
+            <specular>0.1 0.1 0.1 1.0</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <model name="fwd_wall">
+      <pose>10.5 0 -0.75 0 0 0</pose>
+      <static>true</static>
+      <link name="fwd_link">
+        <visual name="fwd_visual">
+          <geometry>
+              <box>
+                <size>1.0 15.0 1.5</size>
+              </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="read_wall">
+      <pose>-10.5 0 -0.75 0 0 0</pose>
+      <static>true</static>
+      <link name="rear_link">
+        <visual name="read_visual">
+          <geometry>
+            <box>
+              <size>1.0 15.0 1.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="east_wall">
+      <pose>0.0 -8 -0.75 0 0 0</pose>
+      <static>true</static>
+      <link name="east_wall">
+        <visual name="east_wall_visual">
+          <geometry>
+              <box>
+                <size>20.0 1.0 1.5</size>
+              </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="west_wall">
+      <pose>0 8 -0.75 0 0 0</pose>
+      <static>true</static>
+      <link name="west_wall">
+        <visual name="west_wall_visual">
+          <geometry>
+            <box>
+              <size>20.0 1.0 1.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="pool_floor">
+      <pose>0 0 -1.55 0 0 0</pose>
+      <static>true</static>
+      <link name="floor_plane">
+        <visual name="floor_visual">
+          <geometry>
+            <box>
+              <size>20 15.0 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+            <specular>0.5 0.5 0.5 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    
+    <!--<model name ="turbidity_gen">
+
+    <model name="water">
+      <pose>0 0 -1.5 0 0 0</pose>
+      <static>true</static>
+
+      <link name="floor_plane">
+        <visual name="floor_visual">
+
+          <geometry>
+            <box>
+              <size>50 25 3</size>
+            </box>
+          </geometry>
+
+          <material>
+            
+            <ambient>0.2 0.7 0.9 0.6</ambient>
+            <diffuse>0.2 0.7 0.9 0.6</diffuse>
+            <specular>0.1 0.1 0.1 1.0</specular>
+          </material>
+
+          
+          <transparency>0.4</transparency>
+
+        </visual>
+      </link>
+    </model>
+
+
+      <pose>0 0 -3 0 -1.5707 0</pose>
+      <static>true</static>
+      <link name="turbidity_link">
+        
+        <particle_emitter name="emitter" type="box">
+          
+          <emitting>true</emitting>
+          <size>25 50 0</size>
+          <particle_size>10 10 10</particle_size>
+          <lifetime>5</lifetime>
+          <min_velocity>0.1</min_velocity>
+          <max_velocity>0.4</max_velocity>
+          <color_start>0.24 0.6 0.929 0</color_start>
+          <color_end>0.525 0.96 0.96 0</color_end>
+          <scale_rate>0.2</scale_rate>
+          <rate>10</rate>
+          <material>
+            <diffuse>0.525 0.96 0.96 0.025</diffuse>
+            <pbr>
+              <metal>
+                <albedo_map>materials/textures/smoke.png</albedo_map>
+              </metal>
+            </pbr>
+          </material>
+        </particle_emitter>
+      </link>
+    </model>-->
+
+    <model name='many_colored_cube'>
+      <pose> 5 0 -1.5 1.5707 0 0</pose>
+      <static>true</static>
+      <link name="cube">
+          <visual name="cube_visual">
+            <geometry>
+              <mesh>
+                <scale>10 10 10</scale>
+                <uri>meshes/sauvc_gate/gate.obj</uri>
+              </mesh>
+            </geometry>
+          </visual>  
+      </link>
+    </model>
+    
+    
+  </world>
+</sdf>
